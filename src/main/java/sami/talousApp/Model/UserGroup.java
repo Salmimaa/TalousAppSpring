@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class UserGroup {
@@ -19,7 +20,7 @@ public class UserGroup {
 	private String groupName;
 	private String psw;
 	
-	
+	@JsonManagedReference(value="user-movement")
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "group")
 	private List<User> users;
 	

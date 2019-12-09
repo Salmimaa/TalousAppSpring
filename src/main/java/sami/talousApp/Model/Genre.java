@@ -1,13 +1,11 @@
 package sami.talousApp.Model;
 
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+
 
 @Entity
 public class Genre {
@@ -19,9 +17,9 @@ public class Genre {
 	private String genre;
 	
 	
-
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "genre")
-	private List<Bill> bills;
+	//@JsonManagedReference(value="bill-movement")
+	//@OneToMany(cascade = CascadeType.ALL, mappedBy = "genre")
+	//private List<Bill> bills;
 	
 	public Genre() {
 		super();
@@ -33,13 +31,13 @@ public class Genre {
 		this.genre = genre;
 	}
 
-	public List<Bill> getBills() {
-		return bills;
-	}
+	//public List<Bill> getBills() {
+	//	return bills;
+	//}
 
-	public void setBills(List<Bill> bills) {
-		this.bills = bills;
-	}
+	//public void setBills(List<Bill> bills) {
+	//	this.bills = bills;
+	//}
 
 	public Long getGenreId() {
 		return genreId;
@@ -59,7 +57,7 @@ public class Genre {
 
 	@Override
 	public String toString() {
-		return "Genre [bills=" + bills + ", genreId=" + genre + ", genre=" + genre + "]";
+		return "Genre [genreId=" + genre + ", genre=" + genre + "]";
 	}
 	
 	

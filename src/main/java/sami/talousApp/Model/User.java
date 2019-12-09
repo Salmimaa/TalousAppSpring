@@ -11,7 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class User {
@@ -20,14 +21,13 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long userId;
 	private String name;
-	private Long number;
 	
-	
+	@JsonBackReference(value="user-movement")
 	@ManyToOne
-	@JsonIgnore
 	@JoinColumn(name = "groupid")
 	private UserGroup group;
 	
+	@JsonManagedReference(value="user-bill-movement")
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
 	private List<Bill> bills;
 	
@@ -37,10 +37,9 @@ public class User {
 		// TODO Auto-generated constructor stub
 	}
 
-	public User(String name, Long number, UserGroup group, List<Bill> bills) {
+	public User(String name, UserGroup group, List<Bill> bills) {
 		super();
 		this.name = name;
-		this.number = number;
 		this.group = group;
 		this.bills = bills;
 	}
@@ -77,20 +76,9 @@ public class User {
 		this.name = name;
 	}
 
-	public Long getNumber() {
-		return number;
-	}
-
-	public void setNumber(Long number) {
-		this.number = number;
-	}
-
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", name=" + name + ", number=" + number + ", group="
-				+ group + ", bills=" + bills + "]";
+		return "User [userId=" + userId + ", name=" + name + ", group=" + group + ", bills=" + bills + "]";
 	}
-	
-	
 
 }

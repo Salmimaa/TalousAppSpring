@@ -3,6 +3,7 @@ package sami.talousApp.Web;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import sami.talousApp.Model.Bill;
+import sami.talousApp.Model.BillRepository;
+import sami.talousApp.Model.Genre;
+import sami.talousApp.Model.GenreRepository;
 import sami.talousApp.Model.GroupRepository;
 import sami.talousApp.Model.User;
 import sami.talousApp.Model.UserGroup;
@@ -32,6 +37,12 @@ public class RestController {
 	
 	@Autowired
 	private GroupRepository groupRepository; 
+	
+	@Autowired
+	private GenreRepository genreRepository; 
+	
+	@Autowired
+	private BillRepository billRepository; 
 	
 	@PostMapping("/addgroup")
 	public @ResponseBody UserGroup addGroup(@RequestBody String rawJson) throws JsonMappingException, JsonProcessingException {
@@ -48,9 +59,16 @@ public class RestController {
 		ObjectMapper mapper = new ObjectMapper();
 		User user = new User();
 		user = mapper.readValue(rawJson, User.class);
-		UserGroup group = groupRepository.findByGroupId(user.getNumber());
-		user.setGroup(group);
-		return userRepository.save(user); 
+		return userRepository.save(user);  
+	} 
+	 
+	@PostMapping("/addbill")
+	public @ResponseBody Bill addBill(@RequestBody String rawJson) throws JsonMappingException, JsonProcessingException, ParseException {
+		ObjectMapper mapper = new ObjectMapper();
+		Bill bill = new Bill();
+		bill = mapper.readValue(rawJson, Bill.class);
+		return billRepository.save(bill);  
+		
 	}
 	
 	@RequestMapping(value="/users", method = RequestMethod.GET)
@@ -63,6 +81,11 @@ public class RestController {
 		return userRepository.findById(userId);
 	}
 	
+	@RequestMapping(value="/genres", method = RequestMethod.GET)
+	public @ResponseBody List<Genre> genreListRest() {
+		return (List<Genre>) genreRepository.findAll();
+	}
+	 
 	
 	private String salt(String psw){
 		String returnValue="";
@@ -77,6 +100,6 @@ public class RestController {
 			e.printStackTrace();
 		}
 		return returnValue;
-	}	
+	}	 
 
 }

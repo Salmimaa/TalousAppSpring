@@ -9,7 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class Bill {
@@ -18,16 +19,17 @@ public class Bill {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long billId;
 	private double summa;
+	
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
 	private Date date;
-	
-	
+
+	@JsonBackReference(value="bill-movement")
 	@ManyToOne
-	@JsonIgnore
 	@JoinColumn(name = "genreid")
 	private Genre genre;
 	
+	@JsonBackReference(value="user-bill-movement")
 	@ManyToOne
-	@JsonIgnore
 	@JoinColumn(name = "userid")
 	private User user;
 	
@@ -36,28 +38,11 @@ public class Bill {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Bill(Genre genre, User user, double summa, Date date) {
+	public Bill(double summa, Date date, Genre genre, User user) {
 		super();
-		this.genre = genre;
-		this.user = user;
 		this.summa = summa;
 		this.date = date;
-	}
-
-	
-	public Genre getGenre() {
-		return genre;
-	}
-
-	public void setGenre(Genre genre) {
 		this.genre = genre;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
 		this.user = user;
 	}
 
@@ -85,15 +70,26 @@ public class Bill {
 		this.date = date;
 	}
 
+	public Genre getGenre() {
+		return genre;
+	}
+
+	public void setGenre(Genre genre) {
+		this.genre = genre;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	@Override
 	public String toString() {
-		return "Bill [Genre=" + genre + ", user=" + user + ", billId=" + billId + ", summa=" + summa + ", date="
-				+ date + "]";
+		return "Bill [billId=" + billId + ", summa=" + summa + ", date=" + date + ", genre=" + genre + ", user=" + user
+				+ "]";
 	}
-	
-	
-
-	
-	
 
 }
