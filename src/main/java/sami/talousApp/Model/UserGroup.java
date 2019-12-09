@@ -43,7 +43,7 @@ public class UserGroup {
 		this.users = users;
 	}
 
-	public long getGroupId() {
+	public Long getGroupId() {
 		return groupId;
 	}
 

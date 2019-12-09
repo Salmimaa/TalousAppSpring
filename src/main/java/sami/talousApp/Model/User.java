@@ -20,7 +20,7 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long userId;
 	private String name;
-	private int income;
+	private Long number;
 	
 	
 	@ManyToOne
@@ -37,11 +37,12 @@ public class User {
 		// TODO Auto-generated constructor stub
 	}
 
-	public User(UserGroup group, String name, int income) {
+	public User(String name, Long number, UserGroup group, List<Bill> bills) {
 		super();
-		this.group = group;
 		this.name = name;
-		this.income = income;
+		this.number = number;
+		this.group = group;
+		this.bills = bills;
 	}
 
 	public UserGroup getGroup() {
@@ -60,7 +61,7 @@ public class User {
 		this.bills = bills;
 	}
 
-	public long getUserId() {
+	public Long getUserId() {
 		return userId;
 	}
 
@@ -76,20 +77,19 @@ public class User {
 		this.name = name;
 	}
 
-	public int getIncome() {
-		return income;
+	public Long getNumber() {
+		return number;
 	}
 
-	public void setIncome(int income) {
-		this.income = income;
+	public void setNumber(Long number) {
+		this.number = number;
 	}
 
 	@Override
 	public String toString() {
-		return "User [group=" + group + ", bills=" + bills + ", userId=" + userId + ", name=" + name + ", income="
-				+ income + "]";
+		return "User [userId=" + userId + ", name=" + name + ", number=" + number + ", group="
+				+ group + ", bills=" + bills + "]";
 	}
-	
 	
 	
 

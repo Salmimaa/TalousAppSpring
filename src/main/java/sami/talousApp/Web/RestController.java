@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import sami.talousApp.Model.GroupRepository;
 import sami.talousApp.Model.User;
 import sami.talousApp.Model.UserGroup;
@@ -30,15 +34,23 @@ public class RestController {
 	private GroupRepository groupRepository; 
 	
 	@PostMapping("/addgroup")
-	public @ResponseBody UserGroup addGroup(@RequestBody UserGroup group) {
-		String saltPsw = salt(group.getPsw());
+	public @ResponseBody UserGroup addGroup(@RequestBody String rawJson) throws JsonMappingException, JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
 		UserGroup saltGroup = new UserGroup();
+		UserGroup group = mapper.readValue(rawJson, UserGroup.class);
+		saltGroup.setPsw(salt(group.getPsw()));
 		saltGroup.setGroupName(group.getGroupName());
-		saltGroup.setPsw(saltPsw);
-		//saltGroup.setGroupId(group.getGroupId());
 		return groupRepository.save(saltGroup);
-		
+	}
 	
+	@PostMapping("/adduser")
+	public @ResponseBody User addUser(@RequestBody String rawJson) throws JsonMappingException, JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
+		User user = new User();
+		user = mapper.readValue(rawJson, User.class);
+		UserGroup group = groupRepository.findByGroupId(user.getNumber());
+		user.setGroup(group);
+		return userRepository.save(user); 
 	}
 	
 	@RequestMapping(value="/users", method = RequestMethod.GET)

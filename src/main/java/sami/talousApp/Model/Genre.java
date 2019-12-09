@@ -41,7 +41,7 @@ public class Genre {
 		this.bills = bills;
 	}
 
-	public long getGenreId() {
+	public Long getGenreId() {
 		return genreId;
 	}
 

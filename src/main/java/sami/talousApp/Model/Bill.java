@@ -61,7 +61,7 @@ public class Bill {
 		this.user = user;
 	}
 
-	public long getBillId() {
+	public Long getBillId() {
 		return billId;
 	}
 
