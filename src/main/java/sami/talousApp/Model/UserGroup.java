@@ -12,14 +12,17 @@ import javax.persistence.OneToMany;
 @Entity
 public class UserGroup {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long groupId;
+	
+	private String groupName;
+	private String psw;
+	
+	
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "group")
 	private List<User> users;
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long groupId;
-	private String groupName;
-	private String psw;
 	
 	public UserGroup() {
 		super();

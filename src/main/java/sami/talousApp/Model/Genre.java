@@ -13,14 +13,15 @@ import javax.persistence.OneToMany;
 public class Genre {
 	
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "genre")
-	private List<Bill> bills;
-	
-	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long genreId;
 	private String genre;
+	
+	
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "genre")
+	private List<Bill> bills;
 	
 	public Genre() {
 		super();

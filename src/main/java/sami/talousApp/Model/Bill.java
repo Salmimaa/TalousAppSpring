@@ -14,6 +14,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class Bill {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long billId;
+	private double summa;
+	private Date date;
+	
+	
 	@ManyToOne
 	@JsonIgnore
 	@JoinColumn(name = "genreid")
@@ -23,12 +30,6 @@ public class Bill {
 	@JsonIgnore
 	@JoinColumn(name = "userid")
 	private User user;
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long billId;
-	private double summa;
-	private Date date;
 	
 	public Bill() {
 		super();
@@ -43,6 +44,7 @@ public class Bill {
 		this.date = date;
 	}
 
+	
 	public Genre getGenre() {
 		return genre;
 	}

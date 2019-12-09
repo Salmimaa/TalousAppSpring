@@ -16,6 +16,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class User {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long userId;
+	private String name;
+	private int income;
+	
+	
 	@ManyToOne
 	@JsonIgnore
 	@JoinColumn(name = "groupid")
@@ -24,11 +31,6 @@ public class User {
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
 	private List<Bill> bills;
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long userId;
-	private String name;
-	private int income;
 	
 	public User() {
 		super();
