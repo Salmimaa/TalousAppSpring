@@ -1,14 +1,11 @@
 package sami.talousApp.Model;
 
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 @Entity
 public class UserGroup {
@@ -20,9 +17,9 @@ public class UserGroup {
 	private String groupName;
 	private String psw;
 	
-	@JsonManagedReference(value="user-movement")
-	@OneToMany(cascade = CascadeType.ALL,mappedBy = "group")
-	private List<User> users;
+	//@JsonManagedReference(value="user-movement")
+	//@OneToMany(cascade = CascadeType.ALL,mappedBy = "group")
+	//private List<User> users;
 	
 	
 	public UserGroup() {
@@ -36,13 +33,13 @@ public class UserGroup {
 		this.psw = psw;
 	}
 
-	public List<User> getUsers() {
-		return users;
-	}
+	//public List<User> getUsers() {
+	//	return users;
+	//}
 
-	public void setUsers(List<User> users) {
-		this.users = users;
-	}
+	//public void setUsers(List<User> users) {
+	//	this.users = users;
+	//}
 
 	public Long getGroupId() {
 		return groupId;
@@ -70,8 +67,10 @@ public class UserGroup {
 
 	@Override
 	public String toString() {
-		return "Group [users=" + users + ", groupId=" + groupId + ", groupName=" + groupName + ", psw=" + psw + "]";
+		return "UserGroup [groupId=" + groupId + ", groupName=" + groupName + ", psw=" + psw + "]";
 	}
+
+	
 	
 	
 	

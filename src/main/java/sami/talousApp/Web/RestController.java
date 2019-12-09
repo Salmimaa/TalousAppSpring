@@ -54,6 +54,18 @@ public class RestController {
 		return groupRepository.save(saltGroup);
 	}
 	
+	@PostMapping("/login")
+	public @ResponseBody UserGroup login(@RequestBody String rawJson) throws JsonMappingException, JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
+		UserGroup group = mapper.readValue(rawJson, UserGroup.class);
+		String saltPsw = salt(group.getPsw());
+		UserGroup group1 = groupRepository.findBygroupName(group.getGroupName());
+		if(group1.getPsw().matches(saltPsw)) {
+			return group1;
+		}
+		return null;
+	}
+	
 	@PostMapping("/adduser")
 	public @ResponseBody User addUser(@RequestBody String rawJson) throws JsonMappingException, JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
@@ -71,9 +83,10 @@ public class RestController {
 		
 	}
 	
-	@RequestMapping(value="/users", method = RequestMethod.GET)
-	public @ResponseBody List<User> userListRest() {
-		return (List<User>) userRepository.findAll();
+	@RequestMapping(value="/userByGroup/{id}", method = RequestMethod.GET)
+	public @ResponseBody List<User> userListRest(@PathVariable("id") Long groupId) {
+		UserGroup group = groupRepository.findByGroupId(groupId);
+		return (List<User>) userRepository.findByGroup(group);
 	}
 	
 	@RequestMapping(value="/user/{id}", method = RequestMethod.GET)

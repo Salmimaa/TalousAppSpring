@@ -28,7 +28,7 @@ public class User {
 	private UserGroup group;
 	
 	@JsonManagedReference(value="user-bill-movement")
-	@OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	private List<Bill> bills;
 	
 	
