@@ -6,6 +6,7 @@ https://medium.com/swlh/deploying-spring-boot-applications-15e14db25ff0
 
 https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-get-on-ubuntu-16-04
 
+https://docs.nativescript.org/angular/start/introduction?_ga=2.107392834.1984414770.1575976517-1604764931.1574846279
 
 curlit:
   curl -i -X POST -H 'Content-Type: application/json' -d '{ "groupName": "?", "psw": "?" }' http://128.199.54.76:8080/addgroup
