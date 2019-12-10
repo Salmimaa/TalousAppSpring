@@ -8,6 +8,8 @@ https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-ge
 
 https://docs.nativescript.org/angular/start/introduction?_ga=2.107392834.1984414770.1575976517-1604764931.1574846279
 
+https://medium.com/@christof.thalmann/convert-angular-project-to-android-apk-in-10-steps-c49e2fddd29
+
 curlit:
   curl -i -X POST -H 'Content-Type: application/json' -d '{ "groupName": "?", "psw": "?" }' http://128.199.54.76:8080/addgroup
   
