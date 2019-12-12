@@ -7,6 +7,8 @@ import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,25 +47,32 @@ public class RestController {
 	private BillRepository billRepository; 
 	
 	@PostMapping("/addgroup")
-	public @ResponseBody UserGroup addGroup(@RequestBody String rawJson) throws JsonMappingException, JsonProcessingException {
+	public @ResponseBody HttpStatus addGroup(@RequestBody String rawJson) throws JsonMappingException, JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
 		UserGroup saltGroup = new UserGroup();
+		UserGroup group1 = new UserGroup();
 		UserGroup group = mapper.readValue(rawJson, UserGroup.class);
 		saltGroup.setPsw(salt(group.getPsw()));
 		saltGroup.setGroupName(group.getGroupName());
-		return groupRepository.save(saltGroup);
+		group1 = groupRepository.save(saltGroup);
+		if(group1 != null) {
+			return HttpStatus.OK;
+		}
+	return HttpStatus.INTERNAL_SERVER_ERROR;
 	}
 	
 	@PostMapping("/login")
-	public @ResponseBody UserGroup login(@RequestBody String rawJson) throws JsonMappingException, JsonProcessingException {
+	public @ResponseBody ResponseEntity<UserGroup> login(@RequestBody String rawJson) throws JsonMappingException, JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
+		
 		UserGroup group = mapper.readValue(rawJson, UserGroup.class);
 		String saltPsw = salt(group.getPsw());
 		UserGroup group1 = groupRepository.findBygroupName(group.getGroupName());
 		if(group1.getPsw().matches(saltPsw)) {
-			return group1;
+			group1.setPsw(null);
+			return ResponseEntity.ok(group1);
 		}
-		return null;
+		return ResponseEntity.ok(null);
 	}
 	
 	@PostMapping("/adduser")
